@@ -22,7 +22,7 @@ class HeadHunterAPI(APIVacancy):
         params = {
             'text': search_query,
             'experience': exp,
-            'order_by': 'publication_time',
+            'order_by': 'relevance',
             'per_page': search_num,
             'page': page
         }
