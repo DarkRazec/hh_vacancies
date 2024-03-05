@@ -22,6 +22,7 @@ class Vacancy:
             return f"Вакансия {self.__name} с заработной платой {self.__from} {self.__currency} {self.__url}"
         return f"Вакансия {self.__name} c неуказанной заработной платой {self.__url}"
 
+    # Геттеры и Property
     @property
     def name(self):
         return self.__name
@@ -52,26 +53,65 @@ class Vacancy:
             return self.__to
         return 0
 
-    # TODO Переписать метод
-    def compare_vacs(self, other: 'Vacancy') -> str:
-        """
-        Возвращает строку со сравнением двух вакансий по заработной плате
-        :param other: Вакансия для сравнения
-        :return: Строку со сравнением двух вакансий
-        """
-        if isinstance(other, Vacancy):
-            if not (other.get_from() and self.get_from()):
-                return f"У одной из вакансий не указана заработная плата"
+    # Сравнение вакансий
+    def __lt__(self, other):
+        try:
             this_from, this_to = self.salary_to_rub()
             other_from, other_to = other.salary_to_rub()
-            this_salary = self.salary_median(this_from, this_to)
-            other_salary = other.salary_median(other_from, other_to)
-            if other_salary > this_salary:
-                return f"На вакансии {other.name} предлагают большую зарплату"
-            elif other_salary < this_salary:
-                return f"На вакансии {self.__name} предлагают большую зарплату"
-            return f"Обе вакансии предлагают одинаковую зарплату"
-        else:
+            if self.salary_median(this_from, this_to) < other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __le__(self, other):
+        try:
+            this_from, this_to = self.salary_to_rub()
+            other_from, other_to = other.salary_to_rub()
+            if self.salary_median(this_from, this_to) <= other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __eq__(self, other):
+        try:
+            this_from, this_to = self.salary_to_rub()
+            other_from, other_to = other.salary_to_rub()
+            if self.salary_median(this_from, this_to) == other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __ne__(self, other):
+        try:
+            this_from, this_to = self.salary_to_rub()
+            other_from, other_to = other.salary_to_rub()
+            if self.salary_median(this_from, this_to) != other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __gt__(self, other):
+        try:
+            this_from, this_to = self.salary_to_rub()
+            other_from, other_to = other.salary_to_rub()
+            if self.salary_median(this_from, this_to) > other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __ge__(self, other):
+        try:
+            this_from, this_to = self.salary_to_rub()
+            other_from, other_to = other.salary_to_rub()
+            if self.salary_median(this_from, this_to) >= other.salary_median(other_from, other_to):
+                return True
+            return False
+        except AttributeError:
             raise TypeError("Переданный аргумент не является объектом класса Vacancy")
 
     def salary_to_rub(self) -> tuple[float, float]:
