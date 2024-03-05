@@ -11,17 +11,13 @@ def test_vacancy():
 
 def test_compare():
     vac_1 = Vacancy('TEST', 'TEST', {'from': 10000, 'to': 60000, 'currency': 'RUB', '': ''}, {'T': 'E', 'S': 'T'})
-    vac_2 = Vacancy("TEST", 'TEST', {'from': 10000, 'to': 60000, 'currency': 'RUB', '': ''}, {'T': 'E', 'S': 'T'})
-    assert vac_1.compare_vacs(vac_2) == 'Обе вакансии предлагают одинаковую зарплату'
+    vac_2 = Vacancy("TEST2", 'TEST', {'from': 10000, 'to': 60000, 'currency': 'RUB', '': ''}, {'T': 'E', 'S': 'T'})
+    assert (vac_1 == vac_2) is True
     vac_3 = Vacancy('TEST3', 'TEST', {'from': 100000, 'to': None, 'currency': 'USD', '': ''}, {'T': 'E', 'S': 'T'})
-    assert vac_2.compare_vacs(vac_3)
+    assert (vac_2 > vac_3) is False
     vac_4 = Vacancy('TEST4', 'TEST', {'from': 30000, 'to': 100000, 'currency': 'RUB', '': ''}, {'T': 'E', 'S': 'T'})
-    assert vac_3.compare_vacs(vac_4) == "На вакансии TEST3 предлагают большую зарплату"
-    assert vac_4.compare_vacs(vac_3) == "На вакансии TEST3 предлагают большую зарплату"
-    with pytest.raises(TypeError):
-        assert vac_4.compare_vacs('TEST')
-    vac_5 = Vacancy('TEST4', 'TEST', {'from': None, 'to': None, 'currency': '', '': ''}, {'T': 'E', 'S': 'T'})
-    assert vac_4.compare_vacs(vac_5) == 'У одной из вакансий не указана заработная плата'
+    assert (vac_3 != vac_4) is True
+    assert (vac_4 <= vac_4) is True
 
 
 def test_salary_median():
