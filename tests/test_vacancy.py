@@ -7,6 +7,7 @@ def test_vacancy():
     assert vac.name == 'TEST'
     assert vac.salary == (1, 2, 'RUB')
     assert vac.__str__() == "Вакансия TEST с заработной платой от 1 до 2 RUB TEST"
+    assert vac.currency == 'RUB'
 
 
 def test_compare():
