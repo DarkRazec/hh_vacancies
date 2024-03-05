@@ -42,14 +42,12 @@ class Vacancy:
     def requirements(self):
         return self.__requirements
 
-    @property
-    def _from(self):
+    def get_from(self):
         if self.__from:
             return self.__from
         return 0
 
-    @property
-    def _to(self):
+    def get_to(self):
         if self.__to:
             return self.__to
         return 0
@@ -62,7 +60,7 @@ class Vacancy:
         :return: Строку со сравнением двух вакансий
         """
         if isinstance(other, Vacancy):
-            if not (other._from and self._from):
+            if not (other.get_from() and self.get_from()):
                 return f"У одной из вакансий не указана заработная плата"
             this_from, this_to = self.salary_to_rub()
             other_from, other_to = other.salary_to_rub()
@@ -80,9 +78,9 @@ class Vacancy:
         """Возвращает значения зарплаты приведенные к рублю"""
         if self.__currency != 'RUB':
             curr_rate = get_currency_rate(self.__currency)
-            new_from, new_to = [curr_rate * i for i in (self._from, self._to)]
+            new_from, new_to = [curr_rate * i for i in (self.get_from(), self.get_to())]
             return new_from, new_to
-        return self._from, self._to
+        return self.get_from(), self.get_to()
 
     @staticmethod
     def salary_median(salary_from, salary_to) -> float:
