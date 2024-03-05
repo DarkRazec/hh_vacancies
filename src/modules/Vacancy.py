@@ -43,6 +43,10 @@ class Vacancy:
     def requirements(self):
         return self.__requirements
 
+    @property
+    def currency(self):
+        return self.__currency
+
     def get_from(self):
         if self.__from:
             return self.__from
