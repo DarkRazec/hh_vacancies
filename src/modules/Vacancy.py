@@ -130,5 +130,5 @@ class Vacancy:
     def salary_median(salary_from, salary_to) -> float:
         """Возвращает среднюю зарплату, если в аргументы передан диапазон зарплаты"""
         if salary_to:
-            return (salary_from + salary_to) / 2
+            return round((salary_from + salary_to) / 2)
         return salary_from
