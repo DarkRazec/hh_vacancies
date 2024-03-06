@@ -23,7 +23,7 @@ def test_compare():
 
 def test_salary_median():
     assert Vacancy.salary_median(1, None) == 1
-    assert Vacancy.salary_median(1, 2) == 1.5
+    assert Vacancy.salary_median(2, 5) == 4
 
 
 def test_salary_to_rub():
