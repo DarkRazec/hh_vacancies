@@ -6,14 +6,14 @@ class Vacancy:
     name: str
     url: str
     salary: dict
-    desc: dict
-    __slots__ = ('__name', '__url', '__from', '__to', '__currency', '__desc', '__requirements')
+    desc: tuple
+    __slots__ = ('__name', '__url', '__from', '__to', '__currency', '__area', '__company', '__schedule', '__exp')
 
-    def __init__(self, name: str, url: str, salary: dict, desc: dict[str, str]):
+    def __init__(self, name: str, url: str, salary: dict, desc: tuple = None):
         self.__name = name
         self.__url = url
         self.__from, self.__to, self.__currency, _ = salary.values() if salary else (0, 0, 'RUR', None)
-        self.__desc, self.__requirements = desc.values() if desc else ('', '')
+        self.__area, self.__company,  self.__schedule, self.__exp = desc if desc else (None, None, None, None)
 
     def __str__(self):
         if self.__from:
@@ -36,16 +36,35 @@ class Vacancy:
         return self.__from, self.__to, self.__currency
 
     @property
-    def desc(self):
-        return self.__desc
+    def area(self):
+        if self.__area:
+            return self.__area
+        return "не указано"
 
     @property
-    def requirements(self):
-        return self.__requirements
+    def company(self):
+        return self.__company
+
+    @property
+    def schedule(self):
+        if self.__schedule:
+            return self.__schedule
+        return "не указано"
+
+    @property
+    def exp(self):
+        if self.__exp:
+            return self.__exp
+        return "без опыта"
 
     @property
     def currency(self):
         return self.__currency
+
+    @property
+    def desc(self):
+        return (f"Компания {self.__company} предлагает данную вакансию в городе {self.area}. "
+                f"График работы: {self.schedule}. Требуемый опыт: {self.exp}")
 
     def get_from(self):
         if self.__from:
