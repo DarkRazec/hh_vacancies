@@ -7,7 +7,7 @@ class VacanciesToFile(ABC):
     path: str
 
     def __init__(self, path: str):
-        self._path = path if path else None
+        self.__path = path
 
     @abstractmethod
     def save_to_file(self, *vacancy: Vacancy) -> None:
