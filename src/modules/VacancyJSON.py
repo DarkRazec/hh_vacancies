@@ -24,8 +24,7 @@ class VacancyJSON(VacanciesToFile):
                 # Приведение данных из переданной вакансии к формату JSON
                 vac_to_json = {
                     "name": vacancy.name,
-                    "desc": vacancy.desc,
-                    "requirements": vacancy.requirements,
+                    "desc": {"area": vacancy.area, "company": vacancy.company, "schedule": vacancy.schedule, "exp": vacancy.exp},
                     "salary": {"from": vacancy.get_from(), "to": vacancy.get_to(), "currency": vacancy.currency},
                     "url": vacancy.url
                 }
@@ -51,11 +50,11 @@ class VacancyJSON(VacanciesToFile):
                 for i in data_list:
                     if name in i["name"]:
                         sal_to_check = salary
-                        if i["salary"]["currency"] != "RUB":
+                        if i["salary"]["currency"] != "RUR":
                             sal_to_check = round(sal_to_check / get_currency_rate(i["salary"]["currency"]))
                         if sal_to_check in range(i["salary"]["from"], i["salary"]["to"]):
                             vac_to_return.append(i)
-                return vac_to_return
+                return vac_to_return if vac_to_return else None
             return [i for i in data_list if name in i["name"]]
         return data_list
 
