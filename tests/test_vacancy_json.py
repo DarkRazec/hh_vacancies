@@ -12,9 +12,9 @@ def vacancy_json():
 
 
 def test_vacancy_json(vacancy_json, monkeypatch):
-    vac_1 = Vacancy('TEST', 'TEST', {'from': 1, 'to': 2, 'currency': 'RUB', '': ''}, {'T': 'E', 'S': 'T'})
-    vac_2 = Vacancy('TEST2', 'TEST2', {'from': 100, 'to': 200, 'currency': 'USD', '': ''}, {'T': 'E', 'S': 'T'})
-    vacancy_json.save_to_file(vac_1, vac_2)
+    vac_1 = Vacancy('TEST', 'TEST', (1, 2, 'RUR'), ('T', 'E', 'S', 'T'))
+    vac_2 = Vacancy('TEST2', 'TEST2', (100, 200, 'USD'), ('T', 'E', 'S', 'T'))
+    vacancy_json.save_to_file([vac_1, vac_2])
     assert vacancy_json.get_from_file('TEST')[0]['name'] == 'TEST'
     assert vacancy_json.get_from_file('TEST', 10000)[0]['name'] == 'TEST2'
     monkeypatch.setattr('builtins.input', lambda _: "y")
