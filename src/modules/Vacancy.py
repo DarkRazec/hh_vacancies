@@ -12,7 +12,7 @@ class Vacancy:
     def __init__(self, name: str, url: str, salary: dict, desc: dict[str, str]):
         self.__name = name
         self.__url = url
-        self.__from, self.__to, self.__currency, _ = salary.values() if salary else (0, 0, '', None)
+        self.__from, self.__to, self.__currency, _ = salary.values() if salary else (0, 0, 'RUR', None)
         self.__desc, self.__requirements = desc.values() if desc else ('', '')
 
     def __str__(self):
@@ -120,7 +120,7 @@ class Vacancy:
 
     def salary_to_rub(self) -> tuple[float, float]:
         """Возвращает значения зарплаты приведенные к рублю"""
-        if self.__currency != 'RUB':
+        if self.__currency != 'RUR':
             curr_rate = get_currency_rate(self.__currency)
             new_from, new_to = [curr_rate * i for i in (self.get_from(), self.get_to())]
             return new_from, new_to
