@@ -2,6 +2,8 @@ from src.modules.VacanciesToFile import VacanciesToFile
 import json
 import os
 from src.get_currency_rate import get_currency_rate
+from src.vacancies_to_json import vacancies_to_json
+from src.json_to_vacancies import json_to_vacancies
 
 
 class VacancyJSON(VacanciesToFile):
@@ -20,24 +22,17 @@ class VacancyJSON(VacanciesToFile):
 
     def save_to_file(self, vacancies):
         try:
-            for vacancy in vacancies:
-                # Приведение данных из переданной вакансии к формату JSON
-                vac_to_json = {
-                    "name": vacancy.name,
-                    "desc": {"area": vacancy.area, "company": vacancy.company, "schedule": vacancy.schedule, "exp": vacancy.exp},
-                    "salary": {"from": vacancy.get_from(), "to": vacancy.get_to(), "currency": vacancy.currency},
-                    "url": vacancy.url
-                }
-                # Загрузка данных в файл JSON (или его создание, если такого файла нет)
-                with open(self.path, 'a', encoding='UTF-8') as f:
-                    if os.stat(self.path).st_size == 0:
-                        json.dump([vac_to_json], f, indent=4, ensure_ascii=False)
-                    else:
-                        with open(self.path, encoding='UTF-8') as old_f:
-                            data_list = json.load(old_f)
-                            data_list.append(vac_to_json)
-                        with open(self.path, 'w', encoding='UTF-8') as new_f:
-                            json.dump(data_list, new_f, indent=4, ensure_ascii=False)
+            # Загрузка данных в файл JSON (или его создание, если такого файла нет)
+            with open(self.path, 'a', encoding='UTF-8') as f:
+                if os.stat(self.path).st_size == 0:
+                    json.dump(vacancies_to_json(vacancies), f, indent=4, ensure_ascii=False)
+                else:
+                    with open(self.path, encoding='UTF-8') as old_f:
+                        vac_list = json_to_vacancies(json.load(old_f))
+                        [vac_list.append(vacancy) for vacancy in vacancies]
+                        vac_list.sort(reverse=True)
+                    with open(self.path, 'w', encoding='UTF-8') as new_f:
+                        json.dump(vacancies_to_json(vac_list), new_f, indent=4, ensure_ascii=False)
         except AttributeError:
             raise TypeError("Переданный аргумент не является объектом класса Vacancy")
 
