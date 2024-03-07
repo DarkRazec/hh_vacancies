@@ -5,14 +5,19 @@ class Vacancy:
     """Класс для абстракции 'Вакансия'"""
     name: str
     url: str
-    salary: dict
-    desc: tuple
+    __from: int
+    __to: int
+    currency: str
+    area: str
+    company: str
+    schedule: str
+    exp: str
     __slots__ = ('__name', '__url', '__from', '__to', '__currency', '__area', '__company', '__schedule', '__exp')
 
-    def __init__(self, name: str, url: str, salary: dict, desc: tuple = None):
+    def __init__(self, name: str, url: str, salary: tuple, desc: tuple):
         self.__name = name
         self.__url = url
-        self.__from, self.__to, self.__currency, _ = salary.values() if salary else (0, 0, 'RUR', None)
+        self.__from, self.__to, self.__currency = salary if salary else (0, 0, 'RUR')
         self.__area, self.__company,  self.__schedule, self.__exp = desc if desc else (None, None, None, None)
 
     def __str__(self):
