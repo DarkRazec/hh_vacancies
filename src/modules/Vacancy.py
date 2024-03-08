@@ -142,7 +142,7 @@ class Vacancy:
         except AttributeError:
             raise TypeError("Переданный аргумент не является объектом класса Vacancy")
 
-    def salary_to_rub(self) -> tuple[float, float]:
+    def salary_to_rub(self) -> tuple[int, int] | tuple[float, float]:
         """Возвращает значения зарплаты приведенные к рублю"""
         if self.__currency != 'RUR':
             curr_rate = get_currency_rate(self.__currency)
@@ -151,7 +151,7 @@ class Vacancy:
         return self.get_from(), self.get_to()
 
     @staticmethod
-    def salary_median(salary_from, salary_to) -> float:
+    def salary_median(salary_from: int | float, salary_to: int | float) -> int:
         """Возвращает среднюю зарплату, если в аргументы передан диапазон зарплаты"""
         if salary_to:
             return round((salary_from + salary_to) / 2)
