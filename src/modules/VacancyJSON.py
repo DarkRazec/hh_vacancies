@@ -6,6 +6,14 @@ from src.vacancies_to_json import vacancies_to_json
 from src.json_to_vacancies import json_to_vacancies
 
 
+def is_salary_in(sal, sal_to_compare):
+    if sal_to_compare["currency"] != "RUR":
+        sal = round(sal / get_currency_rate(sal_to_compare["currency"]))
+    if sal in range(sal_to_compare["from"], sal_to_compare["to"]):
+        return True
+    return False
+
+
 class VacancyJSON(VacanciesToFile):
     """Класс для взаимодействия объектов класса Vacancy с JSON файлами"""
 
@@ -44,21 +52,15 @@ class VacancyJSON(VacanciesToFile):
             if salary:
                 for i in json_list:
                     if name in i["name"]:
-                        sal_to_check = salary
-                        if i["salary"]["currency"] != "RUR":
-                            sal_to_check = round(sal_to_check / get_currency_rate(i["salary"]["currency"]))
-                        if sal_to_check in range(i["salary"]["from"], i["salary"]["to"]):
+                        if is_salary_in(salary, i["salary"]):
                             vac_to_return.append(i)
-                return vac_to_return if vac_to_return else None
+                return vac_to_return
             return [i for i in json_list if name in i["name"]]
         elif salary:
             for i in json_list:
-                sal_to_check = salary
-                if i["salary"]["currency"] != "RUR":
-                    sal_to_check = round(sal_to_check / get_currency_rate(i["salary"]["currency"]))
-                if sal_to_check in range(i["salary"]["from"], i["salary"]["to"]):
+                if is_salary_in(salary, i["salary"]):
                     vac_to_return.append(i)
-            return vac_to_return if vac_to_return else None
+            return vac_to_return
         return json_list
 
     def delete_from_file(self, name: str = None):
