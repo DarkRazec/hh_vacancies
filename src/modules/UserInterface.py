@@ -75,9 +75,9 @@ class UserInterface:
         """Метод для взаимодействия пользователя с методом получения данных из файла класса VacancyToFile"""
         if os.stat(self.vac_fs.path).st_size != 0:
             name = input("(Необязательно) Введите название вакансии для поиска файле ")
-            salary = self.num_check(input("(Необязательно) Введите зарплату для поиска вакансии в файле "))
+            salary = self.num_check(input("(Необязательно) Введите сумму зарплаты в рублях для поиска вакансии в файле "))
             print("")
-            json_vacancies = self.vac_fs.get_from_file(name, salary) if True else None
+            json_vacancies = self.vac_fs.get_from_file(name, salary)
             return json_to_vacancies(json_vacancies) if json_vacancies else ["По вашему запросу ничего не найдено"]
         else:
             return ["Файл пуст"]
