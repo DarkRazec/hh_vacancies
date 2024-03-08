@@ -1,4 +1,9 @@
-def vacancies_to_json(vacancies):
+def vacancies_to_json(vacancies: list) -> list[dict]:
+    """
+    Возвращает список вакансий в формате JSON
+    :param vacancies: список объектов класса Vacancy
+    :return: список вакансий в формате JSON
+    """
     json_vacancies = []
     for vacancy in vacancies:
         vac_json = {
