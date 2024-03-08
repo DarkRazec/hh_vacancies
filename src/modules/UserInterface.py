@@ -77,7 +77,7 @@ class UserInterface:
             name = input("(Необязательно) Введите название вакансии для поиска файле ")
             salary = self.num_check(input("(Необязательно) Введите сумму зарплаты в рублях для поиска вакансии в файле "))
             print("")
-            json_vacancies = self.vac_fs.get_from_file(name, salary) if True else None
+            json_vacancies = self.vac_fs.get_from_file(name, salary)
             return json_to_vacancies(json_vacancies) if json_vacancies else ["По вашему запросу ничего не найдено"]
         else:
             return ["Файл пуст"]
