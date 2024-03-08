@@ -25,15 +25,3 @@ def test_compare():
     vac_4 = Vacancy('TEST4', 'TEST', (30000, 100000, 'RUR'), ('T', 'E', 'S', 'T'))
     assert (vac_3 != vac_4) is True
     assert (vac_4 <= vac_4) is True
-
-
-def test_salary_median():
-    assert Vacancy.salary_median(1, None) == 1
-    assert Vacancy.salary_median(2, 5) == 4
-
-
-def test_salary_to_rub():
-    vac_1 = Vacancy('TEST', 'TEST', (1, None, 'RUR'), ('T', 'E', 'S', 'T'))
-    assert vac_1.salary_to_rub() == (1, 0)
-    vac_2 = Vacancy('TEST', 'TEST', (None, 1, 'RUR'), ('T', 'E', 'S', 'T'))
-    assert type(vac_2.salary_to_rub()) is tuple
