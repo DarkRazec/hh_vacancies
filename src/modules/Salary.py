@@ -6,6 +6,7 @@ class Salary:
     __from: int
     __to: int
     __currency: str
+    __slots__ = ('__from', '__to', '__currency')
 
     def __init__(self, salary: tuple):
         self.__from, self.__to, self.__currency = salary if salary else (0, 0, 'RUR')

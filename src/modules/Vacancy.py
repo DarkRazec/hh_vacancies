@@ -9,7 +9,7 @@ class Vacancy(Salary):
     company: str
     schedule: str
     exp: str
-    __slots__ = ('__name', '__url', '__from', '__to', '__currency', '__area', '__company', '__schedule', '__exp')
+    __slots__ = ('__name', '__url', '__area', '__company', '__schedule', '__exp')
 
     def __init__(self, name: str, url: str, salary: tuple, desc: tuple):
         super().__init__(salary)
