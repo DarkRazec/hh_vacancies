@@ -1,6 +1,7 @@
 from src.modules.HeadHunterAPI import HeadHunterAPI
 from src.modules.Vacancy import Vacancy
 from src.modules.VacancyJSON import VacancyJSON
+from src.json_to_vacancies import json_to_vacancies
 import os
 
 
@@ -36,7 +37,7 @@ class UserInterface:
                     if self.vacancies:
                         self.file_save()
                     else:
-                        print("Отсутствуют вакансии для сохранения")
+                        print("\nОтсутствуют вакансии для сохранения")
                 elif user_input in ('3', 'показать'):
                     print("")
                     [print(vacancy) for vacancy in self.file_get()]
@@ -77,9 +78,7 @@ class UserInterface:
             salary = self.num_check(input("(Необязательно) Введите зарплату для поиска вакансии в файле "))
             print("")
             json_vacancies = self.vac_fs.get_from_file(name, salary) if True else None
-            return [Vacancy(vacancy["name"], vacancy["url"], vacancy["salary"].values(),
-                            vacancy["desc"].values()) for vacancy in json_vacancies] \
-                if json_vacancies else ["По вашему запросу ничего не найдено"]
+            return json_to_vacancies(json_vacancies) if json_vacancies else ["По вашему запросу ничего не найдено"]
         else:
             return ["Файл пуст"]
 
