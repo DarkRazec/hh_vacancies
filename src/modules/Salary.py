@@ -1,26 +1,29 @@
-from typing import List, Any
-
 from src.get_currency_rate import get_currency_rate
 
 
 class Salary:
     """Класс для абстракции 'Заработная плата'"""
+    __from: int
+    __to: int
+    __currency: str
 
     def __init__(self, salary: tuple):
         self.__from, self.__to, self.__currency = salary if salary else (0, 0, 'RUR')
 
-    def get_from(self):
+    def get_from(self) -> int:
+        """Возвращает поле from, либо 0"""
         if self.__from:
             return self.__from
         return 0
 
-    def get_to(self):
+    def get_to(self) -> int:
+        """Возвращает поле to, либо 0"""
         if self.__to:
             return self.__to
         return 0
 
     @property
-    def currency(self):
+    def currency(self) -> str:
         return self.__currency
 
     @property

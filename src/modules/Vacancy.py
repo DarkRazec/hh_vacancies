@@ -5,9 +5,6 @@ class Vacancy(Salary):
     """Класс для абстракции 'Вакансия'"""
     name: str
     url: str
-    __from: int
-    __to: int
-    currency: str
     area: str
     company: str
     schedule: str
@@ -29,42 +26,42 @@ class Vacancy(Salary):
 
     # Геттеры и Property
     @property
-    def name(self):
+    def name(self) -> str:
         return self.__name
 
     @property
-    def url(self):
+    def url(self) -> str:
         return self.__url
 
     @property
-    def area(self):
+    def area(self) -> str:
         if self.__area:
             return self.__area
         return "не указано"
 
     @property
-    def company(self):
+    def company(self) -> str:
         return self.__company
 
     @property
-    def schedule(self):
+    def schedule(self) -> str:
         if self.__schedule:
             return self.__schedule
         return "не указано"
 
     @property
-    def exp(self):
+    def exp(self) -> str:
         if self.__exp:
             return self.__exp
         return "без опыта"
 
     @property
-    def desc(self):
+    def desc(self) -> str:
         return (f"Компания {self.__company} предлагает данную вакансию в городе {self.area}. "
                 f"График работы: {self.schedule}. Требуемый опыт: {self.exp}")
 
     # Сравнение вакансий
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         try:
             if self.salary_median() < other.salary_median():
                 return True
@@ -72,7 +69,7 @@ class Vacancy(Salary):
         except AttributeError:
             raise TypeError("Переданный аргумент не является объектом класса Vacancy")
 
-    def __le__(self, other):
+    def __le__(self, other) -> bool:
         try:
             if self.salary_median() <= other.salary_median():
                 return True
