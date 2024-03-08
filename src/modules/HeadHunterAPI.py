@@ -16,7 +16,7 @@ class HeadHunterAPI(APIVacancy):
         :param search_query: Запрос пользователя
         :param search_num: Количество элементов выдачи (макс. 100)
         :param page: Номер страницы
-        :param exp: Опыт работы. Принимает значения: "noExperience", "between1And3", "between3And6", "moreThan6" TODO
+        :param exp: Опыт работы. Принимает значения: "noExperience", "between1And3", "between3And6", "moreThan6"
         :return: Список словарей
         """
         params = {
