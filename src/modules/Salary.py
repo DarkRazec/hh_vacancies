@@ -44,3 +44,52 @@ class Salary:
         if new_to:
             return round((new_from + new_to) / 2)
         return new_from
+
+    # Сравнение вакансий
+    def __lt__(self, other) -> bool:
+        try:
+            if self.salary_median() < other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __le__(self, other) -> bool:
+        try:
+            if self.salary_median() <= other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __eq__(self, other) -> bool:
+        try:
+            if self.salary_median() == other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __ne__(self, other) -> bool:
+        try:
+            if self.salary_median() != other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __gt__(self, other) -> bool:
+        try:
+            if self.salary_median() > other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
+
+    def __ge__(self, other) -> bool:
+        try:
+            if self.salary_median() >= other.salary_median():
+                return True
+            return False
+        except AttributeError:
+            raise TypeError("Переданный аргумент не является объектом класса Vacancy")
