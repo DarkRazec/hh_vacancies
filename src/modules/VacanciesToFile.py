@@ -27,6 +27,7 @@ class VacanciesToFile(ABC):
         """
         pass
 
+    @abstractmethod
     def delete_from_file(self, name: str = None) -> None:
         """
         Удаляет вакансию с указанными критериями или все вакансии, если критериев нет
