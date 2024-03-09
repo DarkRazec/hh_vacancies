@@ -15,7 +15,7 @@ def is_salary_in(sal: int, sal_to_compare: dict) -> bool:
     """
     if sal_to_compare["currency"] != "RUR":
         sal = round(sal / get_currency_rate(sal_to_compare["currency"]))
-    if sal in range(sal_to_compare["from"], sal_to_compare["to"]):
+    if sal_to_compare["from"] <= sal <= sal_to_compare["to"]:
         return True
     return False
 
