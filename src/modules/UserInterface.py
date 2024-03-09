@@ -66,7 +66,11 @@ class UserInterface:
         vac_nums = [int(num) for num in input("Введите через пробел номера вакансий, которые хотите сохранить"
                                               "(оставьте это поле пустым, чтобы сохранить все вакансии) ").split()]
         if vac_nums:
-            vac_to_save = [self.vacancies[i] for i in range(len(self.vacancies)) if i + 1 in vac_nums]
+            try:
+                vac_to_save = [self.vacancies[i - 1] for i in vac_nums]
+            except IndexError:
+                print("Введен неверный номер вакансии")
+                return
             self.vac_fs.save_to_file(vac_to_save)
         else:
             self.vac_fs.save_to_file(self.vacancies)
