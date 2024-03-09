@@ -36,7 +36,7 @@ class Salary:
         if self.__currency != "RUR":
             curr_rate = get_currency_rate(self.__currency)
             return [curr_rate * i for i in (self.get_from(), self.get_to())]
-        return [self.__from, self.__to]
+        return [self.get_from(), self.get_to()]
 
     def salary_median(self) -> int:
         """Возвращает среднюю зарплату, если в аргументы передан диапазон зарплаты"""
