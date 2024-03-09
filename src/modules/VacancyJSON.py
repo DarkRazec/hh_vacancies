@@ -9,9 +9,8 @@ from src.json_to_vacancies import json_to_vacancies
 def is_salary_in(sal: int, sal_to_compare: dict) -> bool:
     """
     Проверяет, находится ли переданное значение зарплаты в переданном диапазоне зарплат
-    :param sal:
-    :param sal_to_compare:
-    :return:
+    :param sal: проверяемое значение зарплаты
+    :param sal_to_compare: диапазон зарплат
     """
     if sal_to_compare["currency"] != "RUR":
         sal = round(sal / get_currency_rate(sal_to_compare["currency"]))
