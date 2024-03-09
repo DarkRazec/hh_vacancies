@@ -36,15 +36,15 @@ class VacancyJSON(VacanciesToFile):
     def save_to_file(self, vacancies: list):
         try:
             # Загрузка данных в файл JSON (или его создание, если такого файла нет)
-            with open(self.path, 'a', encoding='UTF-8') as f:
-                if os.stat(self.path).st_size == 0:
+            if os.stat(self.path).st_size == 0:
+                with open(self.path, 'w', encoding='UTF-8') as f:
                     json.dump(vacancies_to_json(vacancies), f, indent=4, ensure_ascii=False)
-                else:
-                    with open(self.path, encoding='UTF-8') as old_f:
-                        vac_list = json_to_vacancies(json.load(old_f))
-                        [vac_list.append(vacancy) for vacancy in vacancies]
-                    with open(self.path, 'w', encoding='UTF-8') as new_f:
-                        json.dump(vacancies_to_json(vac_list), new_f, indent=4, ensure_ascii=False)
+            else:
+                with open(self.path, 'r+', encoding='UTF-8') as f:
+                    vac_list = json_to_vacancies(json.load(f))
+                    [vac_list.append(vacancy) for vacancy in vacancies]
+                    f.seek(0)
+                    json.dump(vacancies_to_json(vac_list), f, indent=4, ensure_ascii=False)
         except AttributeError:
             raise TypeError("Переданный аргумент не является объектом класса Vacancy")
 
@@ -68,22 +68,21 @@ class VacancyJSON(VacanciesToFile):
         return json_list
 
     def delete_from_file(self, name: str = None):
-        with open(self.path, encoding='UTF-8') as f:
+        with open(self.path, 'r+', encoding='UTF-8') as f:
             data_list = json.load(f)
         # Удаление из списка ОДНОЙ вакансии, соответствующей переданному аргументу, и запись списка обратно в файл
-        if name:
-            for i in data_list:
-                if name in i["name"]:
-                    data_list.remove(i)
-                    break
-            with open(self.path, 'w', encoding='UTF-8') as new_f:
-                json.dump(data_list, new_f, indent=4, ensure_ascii=False)
-        # Удаление ВСЕХ данных из файла
-        else:
-            user_input = input("Вы уверены, что хотите удалить ВСЕ данные из файла?(Y/n) ")
-            if user_input in ('y', 'да'):
-                with open(self.path, 'w'):  # Стирает все данные из файла
-                    return
+            if name:
+                for i in data_list:
+                    if name.lower() in i["name"].lower():
+                        data_list.remove(i)
+                        break
+                f.seek(0)
+                json.dump(data_list, f, indent=4, ensure_ascii=False)
+                f.truncate()
+            # Удаление ВСЕХ данных из файла
             else:
-                print("Удаление данных прервано")
-                return
+                user_input = input("Вы уверены, что хотите удалить ВСЕ данные из файла?(Y/n) ")
+                if user_input in ('y', 'да'):
+                    f.truncate(0)  # Стирает все данные из файла
+                else:
+                    print("Удаление данных прервано")
