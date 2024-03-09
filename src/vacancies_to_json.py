@@ -4,6 +4,8 @@ def vacancies_to_json(vacancies: list) -> list[dict]:
     :param vacancies: список объектов класса Vacancy
     :return: список вакансий в формате JSON
     """
+
+    vacancies.sort(reverse=True)
     json_vacancies = []
     for vacancy in vacancies:
         vac_json = {
