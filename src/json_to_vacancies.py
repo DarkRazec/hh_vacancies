@@ -1,4 +1,4 @@
-from src.modules.Vacancy import Vacancy
+from src.modules.vacancy import Vacancy
 
 
 def json_to_vacancies(raw_vacancies) -> list[Vacancy]:

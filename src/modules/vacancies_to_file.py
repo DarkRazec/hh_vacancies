@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.modules.Vacancy import Vacancy
+from src.modules.vacancy import Vacancy
 
 
 class VacanciesToFile(ABC):

@@ -1,6 +1,6 @@
-from src.modules.HeadHunterAPI import HeadHunterAPI
-from src.modules.Vacancy import Vacancy
-from src.modules.VacancyJSON import VacancyJSON
+from src.modules.hh_api import HeadHunterAPI
+from src.modules.vacancy import Vacancy
+from src.modules.vacancy_json import VacancyJSON
 from src.json_to_vacancies import json_to_vacancies
 import os
 

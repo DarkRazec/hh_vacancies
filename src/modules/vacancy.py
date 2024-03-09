@@ -1,4 +1,4 @@
-from src.modules.Salary import Salary
+from src.modules.salary import Salary
 
 
 class Vacancy(Salary):

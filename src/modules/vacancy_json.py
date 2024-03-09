@@ -1,4 +1,4 @@
-from src.modules.VacanciesToFile import VacanciesToFile
+from src.modules.vacancies_to_file import VacanciesToFile
 import json
 import os
 from src.get_currency_rate import get_currency_rate
