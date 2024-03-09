@@ -1,6 +1,6 @@
-from src.modules.HeadHunterAPI import HeadHunterAPI
-from src.modules.Vacancy import Vacancy
-from src.modules.VacancyJSON import VacancyJSON
+from src.modules.hh_api import HeadHunterAPI
+from src.modules.vacancy import Vacancy
+from src.modules.vacancy_json import VacancyJSON
 from src.json_to_vacancies import json_to_vacancies
 import os
 
@@ -10,6 +10,13 @@ class UserInterface:
     vacancies: list[Vacancy] = None
 
     def __init__(self):
+        fs_mode = {
+            "json": VacancyJSON,
+            "sql": "TODO",
+            "csv": "TODO",
+            "excel": "TODO"
+        }
+        self.vac_fs = fs_mode["json"]()  # Других форматов пока нет, так что захардкодил
         try:
             while True:
                 user_input = input("""
@@ -22,27 +29,16 @@ class UserInterface:
     """)
                 if user_input in ("5", "выйти"):
                     exit(0)
-                fs_mode = {
-                    "json": VacancyJSON,
-                    "sql": "TODO",
-                    "csv": "TODO",
-                    "excel": "TODO"
-                }
-                self.vac_fs = fs_mode["json"]()  # Других форматов пока нет, так что захардкодил
                 if user_input in ('1', 'получить'):
-                    print("")
                     self.vacancies = self.api_get()
                 elif user_input in ('2', 'сохранить'):
-                    print("")
                     if self.vacancies:
                         self.file_save()
                     else:
                         print("\nОтсутствуют вакансии для сохранения")
                 elif user_input in ('3', 'показать'):
-                    print("")
-                    [print(vacancy) for vacancy in self.file_get()]
+                    [print(f"\t{vacancy}") for vacancy in self.file_get()]
                 elif user_input in ('4', 'удалить'):
-                    print("")
                     self.file_delete()
         except ValueError as e:
             raise e
@@ -63,21 +59,26 @@ class UserInterface:
 
     def file_save(self) -> None:
         """Функция для взаимодействия с методом сохранения данных класса VacancyToFile"""
-        vac_nums = [int(num) for num in input("Введите через пробел номера вакансий, которые хотите сохранить"
-                                              "(оставьте это поле пустым, чтобы сохранить все вакансии) ").split()]
-        if vac_nums:
-            vac_to_save = [self.vacancies[i] for i in range(len(self.vacancies)) if i + 1 in vac_nums]
-            self.vac_fs.save_to_file(vac_to_save)
+        try:
+            vac_nums = [int(num) for num in input("\nВведите через пробел номера вакансий, которые хотите сохранить"
+                                                  "(оставьте это поле пустым, чтобы сохранить все вакансии) ").split()]
+            if vac_nums:
+                vac_to_save = [self.vacancies[i - 1] for i in vac_nums if 0 < i < len(self.vacancies)]
+                self.vac_fs.save_to_file(vac_to_save)
+        except ValueError:
+            print("\nВведено неверное значение")
+            return
         else:
             self.vac_fs.save_to_file(self.vacancies)
 
     def file_get(self) -> list[Vacancy] | list[str]:
         """Метод для взаимодействия пользователя с методом получения данных из файла класса VacancyToFile"""
         if os.stat(self.vac_fs.path).st_size != 0:
-            name = input("(Необязательно) Введите название вакансии для поиска файле ")
-            salary = self.num_check(input("(Необязательно) Введите сумму зарплаты в рублях для поиска вакансии в файле "))
-            print("")
+            name = input("\n(Необязательно) Введите название вакансии для поиска файле ")
+            salary = self.num_check(
+                input("(Необязательно) Введите сумму зарплаты в рублях для поиска вакансии в файле "))
             json_vacancies = self.vac_fs.get_from_file(name, salary)
+            (print("\nПолученный список вакансий:"))
             return json_to_vacancies(json_vacancies) if json_vacancies else ["По вашему запросу ничего не найдено"]
         else:
             return ["Файл пуст"]
@@ -85,8 +86,8 @@ class UserInterface:
     def file_delete(self) -> None:
         """Метод для взаимодействия пользователя с методом удаления данных класса VacancyToFile"""
         if os.stat(self.vac_fs.path).st_size != 0:
-            user_input = input("Введите название вакансии, которую хотите удалить. Оставьте поле пустым, чтобы удалить "
-                               "все данные из файла ")
+            user_input = input("\nВведите название вакансии, которую хотите удалить. Оставьте поле пустым, "
+                               "чтобы удалить все данные из файла ")
             self.vac_fs.delete_from_file(user_input)
         else:
             print("Файл пуст")
@@ -94,10 +95,9 @@ class UserInterface:
     def api_get(self) -> list[Vacancy]:
         """Метод для взаимодействия пользователя с методом получения вакансий API класса"""
         search_query = input(
-            "Введите ключевые слова для поиска вакансий (можно ввести название, регион, диапазон зарплат): ")
+            "\nВведите ключевые слова для поиска вакансий (можно ввести название, регион, диапазон зарплат): ")
         search_num = self.num_check(input("(Необязательно) Введите количество вакансий для вывода (не более 100): "))
         search_page = self.num_check(input("(Необязательно) Введите номер страницы для вывода: "))
-        print("")
         hh_api = HeadHunterAPI()
         raw_vacancies = hh_api.get_vacancies(search_query, search_num, search_page)
         vacancies = [Vacancy(vacancy["name"], vacancy["alternate_url"],
@@ -105,7 +105,6 @@ class UserInterface:
                              if vacancy["salary"] else None,
                              (vacancy["area"]["name"], vacancy["employer"]["name"], vacancy["schedule"]["name"],
                               vacancy["experience"]["name"])) for vacancy in raw_vacancies]
-        vacancies.sort(reverse=True)
-        print("Полученный список вакансий:")
-        [print(f"{i + 1}: ", vacancies[i]) for i in range(len(vacancies))]
+        print("\nПолученный список вакансий:")
+        [print(f"\t{i + 1}:\t", vacancies[i]) for i in range(len(vacancies))]
         return vacancies

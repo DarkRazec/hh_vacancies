@@ -1,4 +1,4 @@
-from src.modules.UserInterface import UserInterface
+from src.modules.user_interface import UserInterface
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import pytest
-from src.modules.HeadHunterAPI import HeadHunterAPI
+from src.modules.hh_api import HeadHunterAPI
 
 
 @pytest.fixture

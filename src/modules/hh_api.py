@@ -1,9 +1,8 @@
-import json
 import requests
-from src.modules.APIVacancy import APIVacancy
+from src.modules.vacancy_api import VacancyAPI
 
 
-class HeadHunterAPI(APIVacancy):
+class HeadHunterAPI(VacancyAPI):
     """Класс для работы с API сервисом 'api.hh.ru'"""
     url: str
 
@@ -26,4 +25,4 @@ class HeadHunterAPI(APIVacancy):
         }
         response = requests.get(self.__url + 'vacancies', params=params)
         response.raise_for_status()
-        return json.loads(response.text)['items']
+        return response.json()['items']
