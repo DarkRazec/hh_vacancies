@@ -20,9 +20,9 @@ class Vacancy(Salary):
     def __str__(self):
         if self.get_from():
             if self.get_to():
-                return f"Вакансия {self.__name} с заработной платой от {self.get_from()} до {self.get_to()} {self.currency} {self.__url}"
-            return f"Вакансия {self.__name} с заработной платой {self.get_from()} {self.currency} {self.__url}"
-        return f"Вакансия {self.__name} c неуказанной заработной платой {self.__url}"
+                return f"{self.__name} с заработной платой от {self.get_from()} до {self.get_to()} {self.currency} {self.__url}"
+            return f"{self.__name} с заработной платой {self.get_from()} {self.currency} {self.__url}"
+        return f"{self.__name} c неуказанной заработной платой {self.__url}"
 
     # Геттеры и Property
     @property
