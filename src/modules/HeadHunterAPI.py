@@ -26,4 +26,4 @@ class HeadHunterAPI(APIVacancy):
         }
         response = requests.get(self.__url + 'vacancies', params=params)
         response.raise_for_status()
-        return json.loads(response.text)['items']
+        return response.json()['items']
