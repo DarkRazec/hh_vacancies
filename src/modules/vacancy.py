@@ -22,6 +22,8 @@ class Vacancy(Salary):
             if self.get_to():
                 return f"{self.__name} с заработной платой от {self.get_from()} до {self.get_to()} {self.currency} {self.__url}"
             return f"{self.__name} с заработной платой {self.get_from()} {self.currency} {self.__url}"
+        elif self.get_to():
+            return f"{self.__name} с заработной платой до {self.get_to()} {self.currency} {self.__url}"
         return f"{self.__name} c неуказанной заработной платой {self.__url}"
 
     # Геттеры и Property
