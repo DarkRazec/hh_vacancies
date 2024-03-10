@@ -34,7 +34,7 @@ class Salary:
     def salary_to_rub(self) -> list[float | int]:
         """Возвращает значения зарплаты приведенные к рублю"""
         if self.__currency != "RUR":
-            curr_rate = get_currency_rate(self.__currency)
+            curr_rate = get_currency_rate(self.__currency.lower())
             return [curr_rate * i for i in (self.get_from(), self.get_to())]
         return [self.get_from(), self.get_to()]
 
