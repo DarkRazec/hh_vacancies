@@ -7,7 +7,7 @@ def test_salary():
     assert salary.get_to() == 0
     assert salary.get_from() == 0
     assert salary.currency == 'RUR'
-    assert salary.salary == (None, None, 'RUR')
+    assert salary.salary == (0, 0, 'RUR')
 
 
 def test_salary_to_rub():
