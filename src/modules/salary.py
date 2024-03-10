@@ -9,19 +9,15 @@ class Salary:
     __slots__ = ('__from', '__to', '__currency')
 
     def __init__(self, salary: tuple):
-        self.__from, self.__to, self.__currency = salary if salary else (0, 0, 'RUR')
+        self.__from = salary[0] if salary and salary[0] else 0
+        self.__to = salary[1] if salary and salary[1] else 0
+        self.__currency = salary[2] if salary and salary[2] else 'RUR'
 
     def get_from(self) -> int:
-        """Возвращает поле from, либо 0"""
-        if self.__from:
-            return self.__from
-        return 0
+        return self.__from
 
     def get_to(self) -> int:
-        """Возвращает поле to, либо 0"""
-        if self.__to:
-            return self.__to
-        return 0
+        return self.__to
 
     @property
     def currency(self) -> str:
@@ -34,9 +30,9 @@ class Salary:
     def salary_to_rub(self) -> list[float | int]:
         """Возвращает значения зарплаты приведенные к рублю"""
         if self.__currency != "RUR":
-            curr_rate = get_currency_rate(self.__currency)
-            return [curr_rate * i for i in (self.get_from(), self.get_to())]
-        return [self.get_from(), self.get_to()]
+            curr_rate = get_currency_rate(self.__currency.lower())
+            return [curr_rate * i for i in (self.__from, self.__to)]
+        return [self.__from, self.__to]
 
     def salary_median(self) -> int:
         """Возвращает среднюю зарплату, если в аргументы передан диапазон зарплаты"""

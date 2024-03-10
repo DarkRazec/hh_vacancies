@@ -10,13 +10,13 @@ class UserInterface:
     vacancies: list[Vacancy] = None
 
     def __init__(self):
-        fs_mode = {
+        file_format = {
             "json": VacancyJSON,
             "sql": "TODO",
             "csv": "TODO",
             "excel": "TODO"
         }
-        self.vac_fs = fs_mode["json"]()  # Других форматов пока нет, так что захардкодил
+        self.file_format = file_format["json"]()  # Других форматов пока нет, так что захардкодил
         try:
             while True:
                 user_input = input("""
@@ -64,33 +64,33 @@ class UserInterface:
                                                   "(оставьте это поле пустым, чтобы сохранить все вакансии) ").split()]
             if vac_nums:
                 vac_to_save = [self.vacancies[i - 1] for i in vac_nums if 0 < i < len(self.vacancies)]
-                self.vac_fs.save_to_file(vac_to_save)
+                self.file_format.save_to_file(vac_to_save)
         except ValueError:
             print("\nВведено неверное значение")
             return
         else:
-            self.vac_fs.save_to_file(self.vacancies)
+            self.file_format.save_to_file(self.vacancies)
 
     def file_get(self) -> list[Vacancy] | list[str]:
         """Метод для взаимодействия пользователя с методом получения данных из файла класса VacancyToFile"""
-        if os.stat(self.vac_fs.path).st_size != 0:
+        if os.stat(self.file_format.path).st_size != 0:
             name = input("\n(Необязательно) Введите название вакансии для поиска файле ")
             salary = self.num_check(
                 input("(Необязательно) Введите сумму зарплаты в рублях для поиска вакансии в файле "))
-            json_vacancies = self.vac_fs.get_from_file(name, salary)
+            json_vacancies = self.file_format.get_from_file(name, salary)
             (print("\nПолученный список вакансий:"))
             return json_to_vacancies(json_vacancies) if json_vacancies else ["По вашему запросу ничего не найдено"]
         else:
-            return ["Файл пуст"]
+            return ["\nФайл пуст"]
 
     def file_delete(self) -> None:
         """Метод для взаимодействия пользователя с методом удаления данных класса VacancyToFile"""
-        if os.stat(self.vac_fs.path).st_size != 0:
+        if os.stat(self.file_format.path).st_size != 0:
             user_input = input("\nВведите название вакансии, которую хотите удалить. Оставьте поле пустым, "
                                "чтобы удалить все данные из файла ")
-            self.vac_fs.delete_from_file(user_input)
+            self.file_format.delete_from_file(user_input)
         else:
-            print("Файл пуст")
+            print("\nФайл пуст")
 
     def api_get(self) -> list[Vacancy]:
         """Метод для взаимодействия пользователя с методом получения вакансий API класса"""
