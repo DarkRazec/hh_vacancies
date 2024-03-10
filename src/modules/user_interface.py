@@ -63,13 +63,13 @@ class UserInterface:
             vac_nums = [int(num) for num in input("\nВведите через пробел номера вакансий, которые хотите сохранить"
                                                   "(оставьте это поле пустым, чтобы сохранить все вакансии) ").split()]
             if vac_nums:
-                vac_to_save = [self.vacancies[i - 1] for i in vac_nums if 0 < i < len(self.vacancies)]
+                vac_to_save = [self.vacancies[i - 1] for i in vac_nums if (0 < i < len(self.vacancies))]
                 self.file_format.save_to_file(vac_to_save)
+            else:
+                self.file_format.save_to_file(self.vacancies)
         except ValueError:
             print("\nВведено неверное значение")
             return
-        else:
-            self.file_format.save_to_file(self.vacancies)
 
     def file_get(self) -> list[Vacancy] | list[str]:
         """Метод для взаимодействия пользователя с методом получения данных из файла класса VacancyToFile"""
