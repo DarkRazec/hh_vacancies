@@ -13,7 +13,7 @@ def is_salary_in(sal: int, sal_to_compare: dict) -> bool:
     :param sal_to_compare: диапазон зарплат
     """
     if sal_to_compare["currency"] != "RUR":
-        sal = round(sal / get_currency_rate(sal_to_compare["currency"]))
+        sal = round(sal / get_currency_rate(sal_to_compare["currency"].lower()))
     if sal_to_compare["from"] <= sal <= sal_to_compare["to"]:
         return True
     return False
