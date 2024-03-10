@@ -51,20 +51,12 @@ class VacancyJSON(VacanciesToFile):
     def get_from_file(self, name: str = None, salary: int = None):
         with open(self.path, encoding='UTF-8') as f:
             json_list = json.load(f)
-        vac_to_return = []
         if name:
             if salary:
-                for i in json_list:
-                    if name in i["name"]:
-                        if is_salary_in(salary, i["salary"]):
-                            vac_to_return.append(i)
-                return vac_to_return
+                return [i for i in json_list if name in i["name"] and is_salary_in(salary, i["salary"])]
             return [i for i in json_list if name in i["name"]]
         elif salary:
-            for i in json_list:
-                if is_salary_in(salary, i["salary"]):
-                    vac_to_return.append(i)
-            return vac_to_return
+            return [i for i in json_list if is_salary_in(salary, i["salary"])]
         return json_list
 
     def delete_from_file(self, name: str = None):
