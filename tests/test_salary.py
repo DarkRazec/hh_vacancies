@@ -14,7 +14,7 @@ def test_salary_to_rub():
     salary_1 = Salary((1, 2, 'RUR'))
     assert salary_1.salary_to_rub() == [1, 2]
     salary_2 = Salary((1, 2, 'USD'))
-    assert salary_2.salary_to_rub() == [get_currency_rate('USD') * num for num in [1, 2]]
+    assert salary_2.salary_to_rub() == [get_currency_rate('usd') * num for num in [1, 2]]
 
 
 def test_salary_median():
